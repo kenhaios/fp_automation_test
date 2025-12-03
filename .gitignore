@@ -1,0 +1,237 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Virtual environments
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+.venv/
+
+# pytest
+.pytest_cache/
+.cache/
+
+# Coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+.python-version
+
+# pipenv
+Pipfile.lock
+
+# PEP 582
+__pypackages__/
+
+# Celery stuff
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# pytype static type analyzer
+.pytype/
+
+# Cython debug symbols
+cython_debug/
+
+# IDE - VSCode
+.vscode/
+*.code-workspace
+
+# IDE - PyCharm
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# IDE - Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# IDE - Vim
+*.swp
+*.swo
+*~
+
+# IDE - Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*.tmp
+
+# Appium specific
+appium/appium.log
+appium/*.log
+appium/screenshots/
+appium/reports/
+appium/venv/
+
+# Maestro specific
+maestro/reports/
+maestro/screenshots/
+maestro/.maestro/
+maestro/output/
+
+# Test reports and artifacts (all frameworks)
+*/reports/
+*/test-reports/
+*/allure-results/
+*/allure-report/
+
+# Screenshots and video recordings (all frameworks)
+*/screenshots/
+*/recordings/
+*/screen-recordings/
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.mp4
+*.mov
+
+# App binaries (comment out if you need to commit specific versions)
+*/apps/**/*.ipa
+*/apps/**/*.apk
+*/apps/**/*.app
+*.dSYM/
+
+# Device logs
+*/device-logs/
+*/simulator-logs/
+
+# Temporary test data
+temp/
+tmp/
+*.tmp
+
+# Log files
+*.log
+appium.log
+maestro.log
+
+# Sensitive configuration files (uncomment as needed)
+# */config/secrets.json
+# */config/credentials.json
+# *.pem
+# *.p12
+# *.mobileprovision
+
+# Node modules (if using any Node.js tools)
+node_modules/
+
+# Backup files
+*.bak
+*.backup
+
+# Compiled Python files
+*.pyc
+*.pyo
+
+# Local configuration overrides
+local_config.py
+config_local.py
+
+# pytest html reports
+pytest_html_report.html
+
+# Framework-specific generated files
+automation_test/generated/
+maestro/generated/
+appium/generated/
