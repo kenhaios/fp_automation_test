@@ -1,0 +1,1 @@
+# FasterPay E-Wallet Appium Test Suite

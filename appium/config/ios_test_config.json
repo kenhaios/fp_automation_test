@@ -1,0 +1,30 @@
+{
+  "available_simulators": [
+    {
+      "name": "iPhone SE",
+      "id": "3rd generation",
+      "ios_version": "17.2"
+    },
+    {
+      "name": "iPhone 14",
+      "id": "6819404C-7253-4CC6-8640-EA2D32BFE3C4",
+      "ios_version": "17.2"
+    },
+    {
+      "name": "iPhone 14 Plus",
+      "id": "CF17EAA9-3BAA-4D56-8738-6206B7CD4FF1",
+      "ios_version": "17.2"
+    }
+  ],
+  "connected_devices": [
+    "be74a24b0a6d729b79d0bb202bf448939277eefe"
+  ],
+  "default_simulator": {
+    "name": "iPhone SE",
+    "id": "3rd generation",
+    "ios_version": "17.2"
+  },
+  "webdriveragent_path": "",
+  "team_id": "YOUR_TEAM_ID_HERE",
+  "setup_date": "Wed Dec  3 15:42:22 +07 2025"
+}
