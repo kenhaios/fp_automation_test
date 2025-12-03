@@ -1,0 +1,86 @@
+appId: com.fasterpay.ewallet
+tags:
+  - fp
+---
+- launchApp:
+    clearState: true
+- tapOn: "Get started"
+- tapOn: Sign Up
+- tapOn: Personal
+- runScript: ../utils/generate_phone.js
+- tapOn:
+    id: edtPhoneNumber
+- inputText: "${output.generatedPhone}"
+- copyTextFrom:
+    id: edtPhoneNumber
+- tapOn:
+    id: btnContinue
+- tapOn:
+    id: otpViewEmail
+- runScript:
+    file: ../utils/sms-helper.js
+    env:
+      PHONE_NUMBER: "${output.generatedPhone}"
+- inputText: ${output.otp}
+- tapOn:
+    id: edtEmail
+- inputRandomEmail
+- tapOn: Continue
+- tapOn:
+    id: edtSignUpPassword
+- inputText: "12345Aa@"
+- tapOn: Continue
+- tapOn:
+    id: edtSignUpFirstName
+- inputText: "Hellen"
+- tapOn:
+    id: edtSignUpLastName
+- inputText: "Johnson"
+- tapOn: Continue
+- tapOn:
+    id: btnContinue
+- tapOn: Address
+- inputRandomText:
+    length: 10
+- tapOn: Postal Code
+- inputRandomText:
+    length: 5
+- tapOn: City
+- inputRandomText:
+    length: 10
+- tapOn: State
+- tapOn: Alaska
+- tapOn:
+    id: btnLocalizationContinue
+- tapOn:
+    id: btnSignUpDOBContinue
+- tapOn: Skip
+
+- tapOn:
+    id: rvPasscodeView
+- tapOn:
+    text: "0"
+    repeat: 6
+    delay: 500
+
+- tapOn:
+    id: rvPasscodeView
+- tapOn:
+    text: "0"
+    repeat: 6
+    delay: 500
+
+- tapOn: Do it later
+- tapOn:
+    id: button7
+    optional: true
+
+- assertVisible: ACCOUNT
+- assertVisible: Add money
+- tapOn:
+    id: imgSetting
+- scrollUntilVisible:
+    element: Log out
+- tapOn: "Log out"
+- tapOn: "OK"
+- assertVisible: "WELCOME TO FASTERPAY"
