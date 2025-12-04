@@ -184,3 +184,58 @@ class BasePage:
         import random
         import string
         return ''.join(random.choices(string.digits, k=length))
+    
+    # iOS-specific debugging methods
+    def debug_element_attributes(self, locator: Tuple[By, str], timeout: int = 10) -> dict:
+        """Debug element attributes for troubleshooting locators"""
+        try:
+            element = self.find_element(locator, timeout)
+            attributes = {
+                'tag_name': element.tag_name,
+                'text': element.text,
+                'name': element.get_attribute('name'),
+                'label': element.get_attribute('label'),
+                'value': element.get_attribute('value'),
+                'type': element.get_attribute('type'),
+                'enabled': element.get_attribute('enabled'),
+                'visible': element.get_attribute('visible'),
+                'accessible': element.get_attribute('accessible')
+            }
+            print(f"Element attributes: {attributes}")
+            return attributes
+        except Exception as e:
+            print(f"Could not find element {locator}: {e}")
+            return {}
+    
+    def find_elements_by_text_ios(self, text: str, timeout: int = 10) -> List[WebElement]:
+        """Find iOS elements by text with multiple strategies"""
+        strategies = [
+            (AppiumBy.XPATH, f"//*[@name='{text}']"),
+            (AppiumBy.XPATH, f"//*[@label='{text}']"),
+            (AppiumBy.XPATH, f"//*[@value='{text}']"),
+            (AppiumBy.XPATH, f"//XCUIElementTypeButton[@name='{text}']"),
+            (AppiumBy.XPATH, f"//XCUIElementTypeButton[@label='{text}']"),
+            (AppiumBy.XPATH, f"//*[contains(@name, '{text}')]"),
+            (AppiumBy.XPATH, f"//*[contains(@label, '{text}')]"),
+        ]
+        
+        for strategy in strategies:
+            try:
+                elements = self.find_elements(strategy, 2)
+                if elements:
+                    print(f"Found {len(elements)} elements with strategy: {strategy}")
+                    return elements
+            except:
+                continue
+        
+        print(f"Could not find any elements with text '{text}' using any strategy")
+        return []
+    
+    def tap_by_text_ios(self, text: str, timeout: int = 10) -> None:
+        """Tap element by text with iOS-specific strategies"""
+        elements = self.find_elements_by_text_ios(text, timeout)
+        if elements:
+            elements[0].click()
+            print(f"Successfully tapped element with text '{text}'")
+        else:
+            raise TimeoutException(f"Could not find clickable element with text '{text}'")

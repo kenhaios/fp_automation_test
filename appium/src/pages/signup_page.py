@@ -8,9 +8,13 @@ from src.base.base_page import BasePage
 class SignUpPage(BasePage):
     """Page object for the sign up screen"""
     
-    # Locators
-    PERSONAL_BUTTON = (AppiumBy.XPATH, "//*[@text='Personal' or @label='Personal']")
-    BUSINESS_BUTTON = (AppiumBy.XPATH, "//*[@text='Business' or @label='Business']")
+    # Locators - iOS-compatible
+    PERSONAL_BUTTON = (AppiumBy.XPATH, "//*[@name='Personal' or @label='Personal' or @value='Personal']")
+    BUSINESS_BUTTON = (AppiumBy.XPATH, "//*[@name='Business' or @label='Business' or @value='Business']")
+    
+    # Alternative locators for iOS
+    PERSONAL_BUTTON_IOS = (AppiumBy.XPATH, "//XCUIElementTypeButton[contains(@name, 'Personal') or contains(@label, 'Personal')]")
+    BUSINESS_BUTTON_IOS = (AppiumBy.XPATH, "//XCUIElementTypeButton[contains(@name, 'Business') or contains(@label, 'Business')]")
     
     PHONE_NUMBER_FIELD = (AppiumBy.ACCESSIBILITY_ID, "edtPhoneNumber")
     PHONE_NUMBER_FIELD_ALT = (AppiumBy.ID, "edtPhoneNumber")
@@ -27,15 +31,27 @@ class SignUpPage(BasePage):
     
     def wait_for_page_load(self, timeout: int = 30) -> None:
         """Wait for sign up page to load"""
-        self.wait_and_assert_visible(self.PERSONAL_BUTTON, timeout)
+        try:
+            self.wait_and_assert_visible(self.PERSONAL_BUTTON, timeout)
+        except:
+            # Fallback to iOS-specific locator
+            self.wait_and_assert_visible(self.PERSONAL_BUTTON_IOS, timeout)
     
     def select_personal_account(self) -> None:
         """Select Personal account type"""
-        self.tap(self.PERSONAL_BUTTON)
+        try:
+            self.tap(self.PERSONAL_BUTTON)
+        except:
+            # Fallback to iOS-specific locator
+            self.tap(self.PERSONAL_BUTTON_IOS)
     
     def select_business_account(self) -> None:
         """Select Business account type"""
-        self.tap(self.BUSINESS_BUTTON)
+        try:
+            self.tap(self.BUSINESS_BUTTON)
+        except:
+            # Fallback to iOS-specific locator
+            self.tap(self.BUSINESS_BUTTON_IOS)
     
     def enter_phone_number(self, phone_number: str) -> None:
         """

@@ -19,7 +19,7 @@ def get_ios_simulator_caps(device_name: str = "iPhone 14", ios_version: str = "1
         "appium:deviceName": device_name,
         "appium:automationName": "XCUITest",
         "appium:app": "apps/ios/Fasterpay.app",
-        "appium:bundleId": "com.fasterpay.app",
+        "appium:bundleId": "com.fasterpay.app.staging",
         "appium:noReset": False,
         "appium:fullReset": True,
         "appium:newCommandTimeout": 300,

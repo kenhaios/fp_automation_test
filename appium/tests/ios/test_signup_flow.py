@@ -16,7 +16,6 @@ class TestiOSSignUpFlow(SignUpFlowShared):
         self.verify_test_results(test_results)
     
     @pytest.mark.device
-    @pytest.mark.skip(reason="Requires real iOS device and valid UDID")
     def test_ios_signup_flow_device(self):
         """Test complete signup flow on iOS real device"""
         test_results = self.execute_signup_flow()

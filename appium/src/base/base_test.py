@@ -89,9 +89,9 @@ class BaseTest:
         """Get app bundle ID based on platform"""
         platform_name = self.driver.capabilities.get('platformName', '').lower()
         if platform_name == 'ios':
-            return 'com.fasterpay.ewallet'
+            return 'com.fasterpay.app.staging'
         else:  # Android
-            return 'com.fasterpay.ewallet'
+            return 'com.fasterpay.app.staging'
     
     def reset_app(self) -> None:
         """Reset app to initial state"""
@@ -111,23 +111,3 @@ class BaseTest:
         }
 
 
-def pytest_addoption(parser):
-    """Add custom pytest options"""
-    parser.addoption(
-        "--platform", 
-        action="store", 
-        default="ios_simulator",
-        help="Platform to run tests on: ios_simulator, ios_device, android_emulator, android_device"
-    )
-    parser.addoption(
-        "--device-id", 
-        action="store", 
-        default=None,
-        help="Device ID/UDID for real device testing"
-    )
-    parser.addoption(
-        "--appium-server", 
-        action="store", 
-        default="http://localhost:4723",
-        help="Appium server URL"
-    )
