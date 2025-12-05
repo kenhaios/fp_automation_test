@@ -234,4 +234,5 @@ pytest_html_report.html
 # Framework-specific generated files
 automation_test/generated/
 maestro/generated/
+maestro/build/**/*.app
 appium/generated/
