@@ -1,6 +1,6 @@
 # 🎯 FasterPay Maestro Test Automation
 
-A robust, scalable Maestro mobile automation framework following the "Think Different" philosophy - designed for comprehensive testing of the FasterPay mobile application across iOS and Android platforms.
+A robust, scalable Maestro mobile automation framework designed for comprehensive testing of the FasterPay mobile application across iOS and Android platforms.
 
 ## 📁 Project Structure
 
@@ -218,5 +218,3 @@ make help                    # Show all available commands
 5. Update documentation as needed
 
 ---
-
-*Built with the "Think Different" philosophy - robust, scalable, and innovative mobile test automation.*
