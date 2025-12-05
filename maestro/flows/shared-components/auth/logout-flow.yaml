@@ -1,0 +1,16 @@
+name: "Logout Flow - Shared Component"
+description: "Reusable logout flow component for all tests"
+tags:
+  - shared
+  - auth
+  - component:logout
+  - platform:ios
+  - platform:android
+---
+- tapOn:
+    id: imgSetting
+- scrollUntilVisible:
+    element: Log out
+- tapOn: "Log out"
+- tapOn: "OK"
+- assertVisible: "WELCOME TO FASTERPAY"

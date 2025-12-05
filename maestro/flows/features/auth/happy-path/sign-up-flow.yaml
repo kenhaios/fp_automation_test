@@ -1,0 +1,100 @@
+name: "Sign Up Flow - Personal Account - Cross Platform"
+description: "Complete user signup flow for personal accounts that works on both iOS and Android"
+tags:
+  - feature:auth
+  - test-type:happy-path
+  - priority:p1
+  - component:signup
+  - owner:auth-team
+  - platform:ios
+  - platform:android
+env:
+  FIRST_NAME: "Hellen"
+  LAST_NAME: "Johnson"
+  PASSWORD: "12345Aa@"
+  STATE: "Alaska"
+  PASSCODE: "0"
+---
+- launchApp:
+    appId: "${APP_ID}"
+    clearState: true
+- tapOn: "Get started"
+- tapOn: Sign Up
+- tapOn: Personal
+- runScript: ../../../../scripts/generate-phone.js
+- tapOn:
+    id: edtPhoneNumber
+- inputText: "${output.generatedPhone}"
+- copyTextFrom:
+    id: edtPhoneNumber
+- tapOn:
+    id: btnContinue
+- tapOn:
+    id: otpViewEmail
+- runScript:
+    file: ../../../../scripts/sms-helper.js
+    env:
+      PHONE_NUMBER: "${output.generatedPhone}"
+- inputText: ${output.otp}
+- tapOn:
+    id: edtEmail
+- inputRandomEmail
+- tapOn: Continue
+- tapOn:
+    id: edtSignUpPassword
+- inputText: "${PASSWORD}"
+- tapOn: Continue
+- tapOn:
+    id: edtSignUpFirstName
+- inputText: "${FIRST_NAME}"
+- tapOn:
+    id: edtSignUpLastName
+- inputText: "${LAST_NAME}"
+- tapOn: Continue
+- tapOn:
+    id: btnContinue
+- tapOn: Address
+- inputRandomText:
+    length: 10
+- tapOn: Postal Code
+- inputRandomText:
+    length: 5
+- tapOn: City
+- inputRandomText:
+    length: 10
+- tapOn: State
+- tapOn: "${STATE}"
+- tapOn:
+    id: btnLocalizationContinue
+- tapOn:
+    id: btnSignUpDOBContinue
+- tapOn: Skip
+
+- tapOn:
+    id: rvPasscodeView
+- tapOn:
+    text: "${PASSCODE}"
+    repeat: 6
+    delay: 500
+
+- tapOn:
+    id: rvPasscodeView
+- tapOn:
+    text: "${PASSCODE}"
+    repeat: 6
+    delay: 500
+
+- tapOn: Do it later
+- tapOn:
+    id: button7
+    optional: true
+
+- assertVisible: ACCOUNT
+- assertVisible: Add money
+- tapOn:
+    id: imgSetting
+- scrollUntilVisible:
+    element: Log out
+- tapOn: "Log out"
+- tapOn: "OK"
+- assertVisible: "WELCOME TO FASTERPAY"

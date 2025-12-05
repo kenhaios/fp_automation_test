@@ -1,0 +1,11 @@
+name: "Assert Home Screen - Shared Component"
+description: "Validates user is on the home screen after successful login/signup"
+tags:
+  - shared
+  - validation
+  - component:home
+  - platform:ios
+  - platform:android
+---
+- assertVisible: ACCOUNT
+- assertVisible: Add money

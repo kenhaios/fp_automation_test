@@ -1,0 +1,22 @@
+devices:
+  ios:
+    simulator:
+      - name: "iPhone 15 Pro"
+        version: "17.0"
+        orientation: portrait
+      - name: "iPhone 15"
+        version: "17.0" 
+        orientation: portrait
+      - name: "iPhone 14 Pro Max"
+        version: "16.4"
+        orientation: portrait
+        
+    real_device:
+      - name: "iPhone Physical Device"
+        udid: "auto"
+        orientation: portrait
+        
+common_settings:
+  launch_timeout: 60000
+  element_timeout: 10000
+  screenshot_format: png

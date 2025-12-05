@@ -1,0 +1,25 @@
+env:
+  APP_ID: com.fasterpay.ewallet
+  ENVIRONMENT: production
+  BASE_URL: https://api.fasterpay.com
+  TIMEOUT: 30000
+  RETRY_ATTEMPTS: 3
+  
+  # Test user credentials (read-only tests only)
+  TEST_USER: test.user@fasterpay.com
+  TEST_PASSWORD: "ProductionTestPass123!"
+  
+  # Phone and SMS settings
+  PHONE_COUNTRY_CODE: "+1"
+  SMS_TIMEOUT: 60000
+  
+  # Test data
+  DEFAULT_AMOUNT: "1"
+  DEFAULT_CURRENCY: "USD"
+  
+  # Device settings
+  ANIMATION_DISABLED: true
+  SCREENSHOT_ON_FAILURE: true
+  
+  # Production safety
+  READ_ONLY_MODE: true

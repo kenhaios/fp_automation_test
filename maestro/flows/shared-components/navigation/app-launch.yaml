@@ -1,0 +1,13 @@
+name: "App Launch - Shared Component"
+description: "Standard app launch component with clear state"
+tags:
+  - shared
+  - navigation
+  - component:launch
+  - platform:ios
+  - platform:android
+---
+- launchApp:
+    appId: "${APP_ID}"
+    clearState: true
+- assertVisible: "Get started"

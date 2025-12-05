@@ -1,0 +1,25 @@
+name: "Daily Regression Suite"
+description: "Comprehensive daily regression tests covering all critical user journeys"
+last-updated: 2024-12-05
+curated-by: QA-Lead
+tags:
+  - quality-gate
+  - regression
+  - priority:p1
+  - daily
+  - platform:ios
+  - platform:android
+---
+# App Launch
+- runFlow: ../shared-components/navigation/app-launch.yaml
+
+# Authentication Happy Paths
+- runFlow: ../features/auth/happy-path/sign-up-flow.yaml
+- runFlow: ../features/auth/happy-path/sign-up-flow-ios.yaml
+- runFlow: ../features/auth/happy-path/sign-in-ios.yaml
+
+# Core Functionality Validation
+- runFlow: ../shared-components/validations/assert-home-screen.yaml
+
+# Logout Flow
+- runFlow: ../shared-components/auth/logout-flow.yaml

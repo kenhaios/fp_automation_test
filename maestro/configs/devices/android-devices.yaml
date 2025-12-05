@@ -1,0 +1,22 @@
+devices:
+  android:
+    emulator:
+      - name: "Pixel 7 API 34"
+        version: "14.0"
+        orientation: portrait
+      - name: "Pixel 6 API 33"
+        version: "13.0"
+        orientation: portrait
+      - name: "Samsung Galaxy S22 API 32"
+        version: "12.0"
+        orientation: portrait
+        
+    real_device:
+      - name: "Android Physical Device"
+        udid: "auto"
+        orientation: portrait
+        
+common_settings:
+  launch_timeout: 60000
+  element_timeout: 10000
+  screenshot_format: png

@@ -1,0 +1,14 @@
+name: "Authentication Test Suite - iOS Specific"
+description: "iOS-specific authentication test coverage"
+tags:
+  - test-suite
+  - feature:auth
+  - platform:ios
+---
+# iOS Happy Path Tests
+- runFlow: ../features/auth/happy-path/sign-up-flow-ios.yaml
+- runFlow: ../features/auth/happy-path/sign-in-ios.yaml
+
+# Future: iOS-specific cases
+# - runFlow: ../features/auth/ios-specific/biometric-auth-ios.yaml
+# - runFlow: ../features/auth/ios-specific/keychain-integration-ios.yaml

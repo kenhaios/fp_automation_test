@@ -1,0 +1,73 @@
+# Cross-Platform Test Template
+# Use this template for tests that work on both iOS and Android
+
+name: "Feature Name - Action - Cross Platform"
+description: "Describe what this test validates and the expected outcome"
+tags:
+  - feature:feature-name          # Required: The feature being tested (auth, payments, etc.)
+  - test-type:happy-path          # Required: happy-path, negative, edge-case
+  - priority:p1                   # Required: p0 (critical), p1 (high), p2 (medium), p3 (low)
+  - component:component-name      # Required: Specific component/screen being tested
+  - owner:team-name              # Required: Team responsible for this test
+  - platform:ios                # Required: This test works on iOS
+  - platform:android            # Required: This test works on Android
+
+# Optional environment variables
+env:
+  VARIABLE_NAME: "default_value"
+  TEST_DATA: "${ENV_VARIABLE}"
+  TIMEOUT: "30000"
+
+# Separator (required)
+---
+
+# Test Steps
+# Use shared components when possible for consistency and reusability
+
+# 1. App Launch (recommended to use shared component)
+- runFlow: ../shared-components/navigation/app-launch.yaml
+
+# 2. Navigation steps
+- tapOn: "Button Text"
+- tapOn:
+    id: elementId
+    
+# 3. Input actions
+- inputText: "Test Data"
+- inputText: "${VARIABLE_NAME}"
+
+# 4. Assertions (add liberally - don't just navigate!)
+- assertVisible: "Expected Text"
+- assertVisible:
+    id: expectedElement
+    
+# 5. Advanced actions (if needed)
+- scrollUntilVisible:
+    element: "Target Element"
+    direction: DOWN
+    timeout: 5000
+    
+- extendedWaitUntil:
+    visible: "Loading Complete"
+    timeout: 10000
+    
+# 6. Conditional actions (if needed)
+- tapOn:
+    text: "Optional Button"
+    optional: true
+    
+# 7. Use shared components for common end actions
+- runFlow: ../shared-components/validations/assert-success.yaml
+
+# Example of a complete simple test:
+# - runFlow: ../shared-components/navigation/app-launch.yaml
+# - tapOn: "Login"
+# - tapOn:
+#     id: usernameField
+# - inputText: "${TEST_USER}"
+# - tapOn:
+#     id: passwordField  
+# - inputText: "${TEST_PASSWORD}"
+# - tapOn: "Sign In"
+# - assertVisible: "Welcome"
+# - runFlow: ../shared-components/validations/assert-home-screen.yaml

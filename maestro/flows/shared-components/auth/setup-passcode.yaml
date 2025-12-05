@@ -1,0 +1,24 @@
+name: "Setup Passcode - Shared Component"
+description: "Reusable passcode setup component"
+tags:
+  - shared
+  - auth
+  - component:passcode
+  - platform:ios
+  - platform:android
+env:
+  PASSCODE: "0"
+---
+- tapOn:
+    id: rvPasscodeView
+- tapOn:
+    text: "${PASSCODE}"
+    repeat: 6
+    delay: 500
+
+- tapOn:
+    id: rvPasscodeView
+- tapOn:
+    text: "${PASSCODE}"
+    repeat: 6
+    delay: 500

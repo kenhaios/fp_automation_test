@@ -1,0 +1,95 @@
+# Android-Specific Test Template
+# Use this template for tests that only work on Android devices
+
+name: "Feature Name - Action - Android Specific"
+description: "Describe Android-specific functionality being tested and expected outcome"
+tags:
+  - feature:feature-name          # Required: The feature being tested (auth, payments, etc.)
+  - test-type:happy-path          # Required: happy-path, negative, edge-case
+  - priority:p1                   # Required: p0 (critical), p1 (high), p2 (medium), p3 (low)
+  - component:component-name      # Required: Specific component/screen being tested
+  - owner:team-name              # Required: Team responsible for this test
+  - platform:android            # Required: This test only works on Android
+
+# Optional Android-specific environment variables
+env:
+  ANDROID_API: "34"
+  DEVICE_TYPE: "Pixel 7"
+  VARIABLE_NAME: "default_value"
+  TEST_DATA: "${ENV_VARIABLE}"
+
+# Separator (required)
+---
+
+# Test Steps for Android-specific functionality
+
+# 1. App Launch (use shared component when possible)
+- runFlow: ../shared-components/navigation/app-launch.yaml
+
+# 2. Android-specific navigation patterns
+- tapOn: "Android Button"
+- tapOn:
+    xpath: "//android.widget.Button[@text='Android Specific Element']"
+
+# 3. Android-specific UI interactions
+- tapOn:
+    id: androidSpecificElementId
+
+# 4. Android-specific gestures and interactions
+- swipe:
+    direction: UP
+    element:
+      xpath: "//androidx.recyclerview.widget.RecyclerView"
+
+# 5. Android hardware back button
+- pressKey: Back
+
+# 6. Android-specific material design components
+- tapOn:
+    xpath: "//com.google.android.material.button.MaterialButton[@text='Material Button']"
+
+# 7. Android-specific biometric authentication (if applicable)
+- tapOn: "Use Fingerprint"
+- tapOn:
+    id: fingerprintSensor
+
+# 8. Android-specific permissions
+- tapOn: "Access Location"
+- tapOn: "Allow" # Android permission dialog
+
+# 9. Android-specific system UI
+- openNotifications
+- tapOn: "App Notification"
+
+# 10. Assertions for Android-specific elements
+- assertVisible: "Android Success Message"
+- assertVisible:
+    xpath: "//android.widget.TextView[@text='Android Specific Text']"
+
+# 11. Android-specific validations
+- runFlow: ../shared-components/validations/assert-android-success.yaml
+
+# Example Android-specific test:
+# - runFlow: ../shared-components/navigation/app-launch.yaml
+# - tapOn: "Settings"
+# - tapOn: "Enable Fingerprint"
+# - tapOn:
+#     xpath: "//android.widget.Button[@text='Enable']"
+# - assertVisible: "Fingerprint Enabled"
+# - tapOn: "Use Fingerprint Login"
+# - assertVisible: "Fingerprint Authentication"
+# - runFlow: ../shared-components/validations/assert-home-screen.yaml
+
+# Common Android-specific selectors:
+# - xpath: "//android.widget.Button[@text='ButtonText']"
+# - xpath: "//android.widget.TextView[@text='TextValue']"
+# - xpath: "//android.widget.EditText[@resource-id='inputField']"
+# - xpath: "//androidx.recyclerview.widget.RecyclerView//android.widget.TextView[@text='ListItem']"
+# - xpath: "//android.widget.ImageView[@content-desc='IconDescription']"
+
+# Android-specific actions:
+# - pressKey: Back              # Hardware back button
+# - pressKey: Home              # Hardware home button
+# - pressKey: Menu              # Hardware menu button
+# - openNotifications           # Pull down notification panel
+# - hideKeyboard               # Hide soft keyboard

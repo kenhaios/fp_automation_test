@@ -1,0 +1,20 @@
+name: "Smoke Test Suite - iOS Specific"
+description: "Critical iOS-specific paths for release validation"
+last-updated: 2024-12-05
+curated-by: QA-Lead
+tags:
+  - quality-gate
+  - smoke
+  - priority:p0
+  - critical
+  - platform:ios
+---
+# App Launch Validation
+- runFlow: ../shared-components/navigation/app-launch.yaml
+
+# iOS Authentication Flows
+- runFlow: ../features/auth/happy-path/sign-up-flow-ios.yaml
+- runFlow: ../features/auth/happy-path/sign-in-ios.yaml
+
+# Core Validations
+- runFlow: ../shared-components/validations/assert-home-screen.yaml

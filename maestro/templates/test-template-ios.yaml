@@ -1,0 +1,82 @@
+# iOS-Specific Test Template
+# Use this template for tests that only work on iOS devices
+
+name: "Feature Name - Action - iOS Specific"
+description: "Describe iOS-specific functionality being tested and expected outcome"
+tags:
+  - feature:feature-name          # Required: The feature being tested (auth, payments, etc.)
+  - test-type:happy-path          # Required: happy-path, negative, edge-case
+  - priority:p1                   # Required: p0 (critical), p1 (high), p2 (medium), p3 (low)
+  - component:component-name      # Required: Specific component/screen being tested
+  - owner:team-name              # Required: Team responsible for this test
+  - platform:ios                # Required: This test only works on iOS
+
+# Optional iOS-specific environment variables
+env:
+  IOS_VERSION: "17.0"
+  DEVICE_TYPE: "iPhone 15 Pro"
+  VARIABLE_NAME: "default_value"
+  TEST_DATA: "${ENV_VARIABLE}"
+
+# Separator (required)
+---
+
+# Test Steps for iOS-specific functionality
+
+# 1. App Launch (use shared component when possible)
+- runFlow: ../shared-components/navigation/app-launch.yaml
+
+# 2. iOS-specific navigation patterns
+- tapOn: "iOS Button"
+- tapOn:
+    xpath: "//XCUIElementTypeButton[@name='iOS Specific Element']"
+
+# 3. iOS-specific UI interactions
+- tapOn:
+    id: iosSpecificElementId
+
+# 4. iOS-specific gestures and interactions
+- swipe:
+    direction: LEFT
+    element:
+      xpath: "//XCUIElementTypeCell"
+
+# 5. iOS-specific alerts and action sheets
+- tapOn: "Show Alert"
+- tapOn:
+    xpath: "//XCUIElementTypeAlert//XCUIElementTypeButton[@name='Confirm']"
+
+# 6. iOS-specific biometric authentication (if applicable)
+- tapOn: "Use Face ID"
+- tapOn:
+    accessibilityId: biometricButton
+
+# 7. iOS-specific system integrations
+- tapOn: "Access Camera"
+- tapOn: "Allow" # iOS permission dialog
+
+# 8. Assertions for iOS-specific elements
+- assertVisible: "iOS Success Message"
+- assertVisible:
+    xpath: "//XCUIElementTypeStaticText[@name='iOS Specific Text']"
+
+# 9. iOS-specific validations
+- runFlow: ../shared-components/validations/assert-ios-success.yaml
+
+# Example iOS-specific test:
+# - runFlow: ../shared-components/navigation/app-launch.yaml
+# - tapOn: "Settings"
+# - tapOn: "Enable Face ID"
+# - tapOn:
+#     xpath: "//XCUIElementTypeAlert//XCUIElementTypeButton[@name='Enable']"
+# - assertVisible: "Face ID Enabled"
+# - tapOn: "Use Face ID Login"
+# - assertVisible: "Face ID Authentication"
+# - runFlow: ../shared-components/validations/assert-home-screen.yaml
+
+# Common iOS-specific selectors:
+# - xpath: "//XCUIElementTypeButton[@name='ButtonName']"
+# - xpath: "//XCUIElementTypeCell[@name='CellName']"
+# - xpath: "//XCUIElementTypeAlert//XCUIElementTypeButton[@name='OK']"
+# - xpath: "//XCUIElementTypeNavigationBar[@name='NavBarTitle']"
+# - xpath: "//XCUIElementTypeStaticText[@name='TextLabel']"

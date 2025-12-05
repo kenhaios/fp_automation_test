@@ -1,0 +1,38 @@
+name: "Sign In Flow - iOS Specific"
+description: "iOS-specific sign in flow with platform-specific elements and behaviors"
+tags:
+  - feature:auth
+  - test-type:happy-path
+  - priority:p1
+  - component:signin
+  - owner:auth-team
+  - platform:ios
+env:
+  EMAIL: "${TEST_USER}"
+  PASSWORD: "${TEST_PASSWORD}"
+  PASSCODE: "0"
+---
+- launchApp:
+    appId: "${APP_ID}"
+    clearState: true
+- tapOn: "Get started"
+- tapOn: Sign In
+- tapOn:
+    id: edtSignInEmail
+- inputText: "${EMAIL}"
+- tapOn:
+    id: edtSignInPassword
+- inputText: "${PASSWORD}"
+- tapOn:
+    id: btnSignIn
+- extendedWaitUntil:
+    visible: "Enter Passcode"
+    timeout: 15000
+- tapOn:
+    id: rvPasscodeView
+- tapOn:
+    text: "${PASSCODE}"
+    repeat: 6
+    delay: 500
+- assertVisible: ACCOUNT
+- assertVisible: Add money
