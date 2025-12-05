@@ -1,0 +1,14 @@
+{
+  "platformName": "iOS",
+  "platformVersion": "16.0",
+  "deviceName": "iPhone",
+  "udid": "be74a24b0a6d729b79d0bb202bf448939277eefe",
+  "automationName": "XCUITest",
+  "app": "/Users/kenha/Documents/2_Automation/FP_AutomationTest/fp_automation_test/appium/apps/ios/Fasterpay.ipa",
+  "bundleId": "com.fasterpay.app.staging",
+  "noReset": false,
+  "newCommandTimeout": 300,
+  "xcodeOrgId": "37N222R38X",
+  "xcodeSigningId": "iPhone Developer",
+  "useNewWDA": true
+}

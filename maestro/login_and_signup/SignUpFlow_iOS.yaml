@@ -1,11 +1,36 @@
-appId: com.fasterpay.ewallet
+appId: com.fasterpay.app.staging
 tags:
   - fp
 ---
 - launchApp:
     clearState: true
-- tapOn: "Get started"
-- tapOn: Sign Up
+- assertVisible: ".*"
+- runFlow:
+    when:
+      visible: "ADD MONEY"
+    commands:
+      - tapOn: Next
+
+- runFlow:
+    when:
+      visible: "CONVERT MONEY"
+    commands:
+      - tapOn: Next
+
+- runFlow:
+    when:
+      visible: "SEND MONEY"
+    commands:
+      - tapOn: Next
+
+- runFlow:
+    when:
+      visible: "WITHDRAW MONEY"
+    commands:
+      - tapOn: Get started
+
+- tapOn:
+    id: btnSignUp
 - tapOn: Personal
 - runScript: ../utils/generate_phone.js
 - tapOn:
@@ -15,8 +40,6 @@ tags:
     id: edtPhoneNumber
 - tapOn:
     id: btnContinue
-- tapOn:
-    id: otpViewEmail
 - runScript:
     file: ../utils/sms-helper.js
     env:
@@ -37,48 +60,59 @@ tags:
     id: edtSignUpLastName
 - inputText: "Johnson"
 - tapOn: Continue
+- tapOn: Continue
+- inputText: "5396 North Reese Avenue"
 - tapOn:
-    id: btnContinue
-- tapOn: Address
-- inputRandomText:
-    length: 10
-- tapOn: Postal Code
-- inputRandomText:
-    length: 5
-- tapOn: City
-- inputRandomText:
-    length: 10
-- tapOn: State
+    id: ic_suggested_add
+- tapOn: "State"
 - tapOn: Alaska
-- tapOn:
-    id: btnLocalizationContinue
-- tapOn:
-    id: btnSignUpDOBContinue
-- tapOn: Skip
+- tapOn: Continue
+- swipe:
+    from:
+      text: "2007"
+    direction: DOWN
+- tapOn: Continue
+- tapOn: Continue without a referral code
 
-- tapOn:
-    id: rvPasscodeView
+- assertVisible: Done
+
 - tapOn:
     text: "0"
     repeat: 6
     delay: 500
 
 - tapOn:
-    id: rvPasscodeView
-- tapOn:
     text: "0"
     repeat: 6
     delay: 500
 
+- runFlow:
+    when:
+      visible: "Allow Biometric ID?"
+    commands:
+      - tapOn: Do it later
+
+- tapOn: Continue
 - tapOn: Do it later
-- tapOn:
-    id: button7
-    optional: true
+
+- runFlow:
+    when:
+      visible: "Failed to create chat user.*"
+    commands:
+      - tapOn: Cancel
+
+- runFlow:
+    when:
+      visible:
+        id: ic_close_banner
+    commands:
+      - tapOn:
+          id: ic_close_banner
 
 - assertVisible: ACCOUNT
 - assertVisible: Add money
-- tapOn:
-    id: imgSetting
+
+- tapOn: ic circle setting
 - scrollUntilVisible:
     element: Log out
 - tapOn: "Log out"

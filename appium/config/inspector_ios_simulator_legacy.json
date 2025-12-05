@@ -1,0 +1,10 @@
+{
+  "platformName": "iOS",
+  "platformVersion": "17.2",
+  "deviceName": "iPhone 14",
+  "automationName": "XCUITest",
+  "app": "/Users/kenha/Documents/2_Automation/FP_AutomationTest/fp_automation_test/appium/apps/ios/Fasterpay.app",
+  "bundleId": "com.fasterpay.app.staging",
+  "noReset": false,
+  "newCommandTimeout": 300
+}
