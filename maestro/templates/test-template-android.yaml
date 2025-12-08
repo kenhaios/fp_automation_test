@@ -13,10 +13,9 @@ tags:
 
 # Optional Android-specific environment variables
 env:
-  ANDROID_API: "34"
-  DEVICE_TYPE: "Pixel 7"
-  VARIABLE_NAME: "default_value"
-  TEST_DATA: "${ENV_VARIABLE}"
+  APP_ID: com.fasterpay.ewallet
+  TEST_USER: iosus02@fp.com
+  TEST_PASSWORD: "12345Aa@"
 
 # Separator (required)
 ---

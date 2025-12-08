@@ -13,10 +13,9 @@ tags:
 
 # Optional iOS-specific environment variables
 env:
-  IOS_VERSION: "17.0"
-  DEVICE_TYPE: "iPhone 15 Pro"
-  VARIABLE_NAME: "default_value"
-  TEST_DATA: "${ENV_VARIABLE}"
+  APP_ID: com.fasterpay.app.staging
+  TEST_USER: iosus02@fp.com
+  TEST_PASSWORD: "12345Aa@"
 
 # Separator (required)
 ---
