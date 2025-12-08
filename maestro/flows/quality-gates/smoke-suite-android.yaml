@@ -1,6 +1,6 @@
 name: "Smoke Test Suite - Critical Path Validation"
 description: "Critical paths for release validation - must pass before deployment"
-last-updated: 2024-12-05
+last-updated: 2025-12-05
 curated-by: QA-Lead
 tags:
   - quality-gate
@@ -15,10 +15,10 @@ appId: ${APP_ID}
 - runFlow: ../shared-components/navigation/app-launch.yaml
 
 # Authentication Core Flows (Critical)
-- runFlow: ../features/auth/happy-path/sign-up-flow.yaml
+- runFlow: ../features/auth/happy-path/sign-up-flow-android.yaml
 
 # iOS Specific Critical Path
-- runFlow: ../features/auth/happy-path/sign-in-ios.yaml
+- runFlow: ../features/auth/happy-path/sign-in-android.yaml
 
 # Core Validations
 - runFlow: ../shared-components/validations/assert-home-screen.yaml

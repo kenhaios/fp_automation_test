@@ -6,7 +6,6 @@ tags:
   - priority:p1
   - component:signup
   - owner:auth-team
-  - platform:ios
   - platform:android
 env:
   FIRST_NAME: "Hellen"
@@ -14,10 +13,10 @@ env:
   PASSWORD: "12345Aa@"
   STATE: "Alaska"
   PASSCODE: "0"
-appId: ${APP_ID}
+appId: com.fasterpay.ewallet
 ---
 - launchApp:
-    appId: "${APP_ID}"
+    appId: com.fasterpay.ewallet
     clearState: true
 - tapOn: "Get started"
 - tapOn: Sign Up

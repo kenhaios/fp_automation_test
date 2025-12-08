@@ -4,7 +4,8 @@
     "allow": [
       "Bash(mkdir:*)",
       "Bash(touch:*)",
-      "Bash(mv:*)"
+      "Bash(mv:*)",
+      "Bash(xcrun simctl list:*)"
     ],
     "deny": []
   }

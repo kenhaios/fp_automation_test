@@ -66,29 +66,24 @@ Before running iOS tests, you need to build and place the FasterPay iOS app:
 
 ### Quality Gates
 ```bash
-make test-smoke              # Critical path smoke tests
 make test-smoke-ios          # iOS-specific smoke tests  
-make test-regression         # Daily regression suite
+make test-smoke-android      # Android-specific smoke tests
+make test-regression-mobile  # Daily regression suite for both platforms
 ```
 
-### Feature Testing
+### Suite-Based Testing
 ```bash
-make test-auth               # All authentication tests
-make test-auth-happy         # Authentication happy paths only
-```
-
-### Platform Testing
-```bash
-make test-ios                # All iOS tests
-make test-android            # All Android tests  
-make test-cross              # Cross-platform tests only
+make test-ios SUITES="auth-ios"                    # Run iOS authentication suite
+make test-android SUITES="auth-android"            # Run Android authentication suite
+make test-ios SUITES="auth-ios,payment-ios"        # Run multiple iOS suites
+make test-android SUITES="auth-android,payment-android" # Run multiple Android suites
 ```
 
 ### Environment Testing
 ```bash
-ENV=dev make test-smoke      # Development environment
-ENV=staging make test-smoke  # Staging environment (default)
-ENV=prod make test-smoke     # Production environment
+ENV=dev make test-smoke-ios      # Development environment
+ENV=staging make test-smoke-ios  # Staging environment (default)
+ENV=prod make test-smoke-ios     # Production environment
 ```
 
 ## 📝 Writing Tests
@@ -179,9 +174,15 @@ flows/features/auth/
 - **prod**: Production environment (read-only tests)
 
 ### Configuration Files
-- `configs/env-dev.yaml`
-- `configs/env-staging.yaml`
-- `configs/env-prod.yaml`
+**iOS Configuration:**
+- `configs/env-dev-ios.yaml`
+- `configs/env-staging-ios.yaml` 
+- `configs/env-prod-ios.yaml`
+
+**Android Configuration:**
+- `configs/env-dev-android.yaml`
+- `configs/env-staging-android.yaml`
+- `configs/env-prod-android.yaml`
 
 ## 📈 CI/CD Integration
 
@@ -189,14 +190,15 @@ The framework is designed for seamless CI/CD integration:
 
 ```bash
 # Pre-merge validation
-make test-smoke
+make test-smoke-ios
+make test-smoke-android
 
 # Release validation
-make test-regression
+make test-regression-mobile
 
 # Platform-specific testing
-make test-ios
-make test-android
+make test-ios SUITES="auth-ios"
+make test-android SUITES="auth-android"
 ```
 
 ## 🎯 Best Practices
@@ -221,7 +223,8 @@ make test-android
 ### Getting Help
 ```bash
 make help                    # Show all available commands
-./scripts/run-tests.sh      # Show available test suites
+make test-ios               # Show available iOS test suites (when run without SUITES)
+make test-android           # Show available Android test suites (when run without SUITES)
 ```
 
 ## 📚 Documentation

@@ -1,0 +1,15 @@
+name: "Authentication Test Suite - Android Specific"
+description: "Android-specific authentication test coverage"
+tags:
+  - test-suite
+  - feature:auth
+  - platform:android
+env:
+  APP_ID: com.fasterpay.ewallet
+  TEST_USER: iosus02@fp.com
+  TEST_PASSWORD: "12345Aa@"
+appId: ${APP_ID}
+---
+# Android Happy Path Tests
+- runFlow: ../features/auth/happy-path/sign-up-flow-android.yaml
+- runFlow: ../features/auth/happy-path/sign-in-android.yaml

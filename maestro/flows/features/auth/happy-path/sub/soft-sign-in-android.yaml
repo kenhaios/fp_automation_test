@@ -1,0 +1,41 @@
+name: "Soft Sign In Flow - Shared Component"
+description: "Reusable sign in flow component for all tests"
+tags:
+  - shared
+  - auth
+  - component:soft-sign-in
+  - platform:ios
+  - platform:android
+env:
+  EMAIL: "${TEST_USER}"
+  PASSWORD: "${TEST_PASSWORD}"
+  PASSCODE: "0"
+appId: ${APP_ID}
+---
+- assertVisible: Welcome back
+- inputText: "${PASSWORD}"
+- doubleTapOn:
+    text: Log In
+    index: -1
+- runFlow:
+    when:
+      visible: "Failed to create chat user.*"
+    commands:
+      - tapOn: Cancel
+
+- runFlow:
+    when:
+      visible:
+        id: ic_close_banner
+    commands:
+      - tapOn:
+          id: ic_close_banner
+
+- runFlow:
+    when:
+      visible: "This feature is un.*"
+    commands:
+      - tapOn: Cancel
+
+- assertVisible: ACCOUNT
+- assertVisible: Add money

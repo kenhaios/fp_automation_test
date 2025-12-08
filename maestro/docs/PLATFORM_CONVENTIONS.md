@@ -198,34 +198,40 @@ Use when:
 
 ## 📊 Test Execution Strategies
 
-### Running Cross-Platform Tests
+### Running Suite-Based Tests
 ```bash
-# Run all cross-platform tests
-make test-cross
+# Run specific iOS test suites
+make test-ios SUITES="auth-ios"
+make test-ios SUITES="auth-ios,payment-ios"
 
-# Run specific cross-platform feature
-maestro test flows/features/auth/ --tags "platform:ios and platform:android"
+# Run specific Android test suites
+make test-android SUITES="auth-android"
+make test-android SUITES="auth-android,payment-android"
+
+# List available suites (run without SUITES parameter)
+make test-ios        # Shows all available iOS test suites
+make test-android    # Shows all available Android test suites
 ```
 
 ### Running Platform-Specific Tests
 ```bash
-# Run all iOS tests
-make test-ios
+# Run individual test files directly
+maestro test flows/features/auth/happy-path/login-user-ios.yaml
+maestro test flows/features/auth/happy-path/login-user-android.yaml
 
-# Run all Android tests
-make test-android
-
-# Run specific iOS feature
-maestro test flows/features/auth/ --tags "platform:ios and feature:auth"
+# Run test suites with environment variables
+ENV=staging make test-ios SUITES="auth-ios"
+ENV=dev make test-android SUITES="auth-android"
 ```
 
-### Running Mixed Test Suites
+### Quality Gate Execution
 ```bash
-# Run all auth tests (cross-platform + iOS + Android)
-make test-auth
+# Run platform-specific smoke tests
+make test-smoke-ios
+make test-smoke-android
 
-# Run happy paths across all platforms
-make test-all-happy
+# Run comprehensive regression testing
+make test-regression-mobile  # Runs both iOS and Android regression suites
 ```
 
 ## 🏷️ Tagging Best Practices
@@ -297,7 +303,40 @@ tags:
 
 ## 📈 Quality Gates Strategy
 
-### Platform-Specific Quality Gates
+### Test Suite Organization
+```yaml
+# flows/test-suites/auth-ios.yaml
+name: "Authentication Test Suite - iOS Specific"
+tags:
+  - test-suite
+  - feature:auth
+  - platform:ios
+env:
+  APP_ID: com.fasterpay.app.staging
+  TEST_USER: iosus02@fp.com
+  TEST_PASSWORD: "12345Aa@"
+---
+- runFlow: ../features/auth/happy-path/sign-up-flow-ios.yaml
+- runFlow: ../features/auth/happy-path/biometric-login-ios.yaml
+```
+
+```yaml
+# flows/test-suites/auth-android.yaml
+name: "Authentication Test Suite - Android Specific"
+tags:
+  - test-suite
+  - feature:auth
+  - platform:android
+env:
+  APP_ID: com.fasterpay.ewallet
+  TEST_USER: iosus02@fp.com
+  TEST_PASSWORD: "12345Aa@"
+---
+- runFlow: ../features/auth/happy-path/sign-up-flow-android.yaml
+- runFlow: ../features/auth/happy-path/fingerprint-login-android.yaml
+```
+
+### Quality Gate Test Suites
 ```yaml
 # flows/quality-gates/smoke-suite-ios.yaml
 name: "Smoke Test Suite - iOS"
@@ -305,22 +344,8 @@ tags:
   - quality-gate
   - platform:ios
 ---
-- runFlow: ../features/auth/happy-path/login-user.yaml          # Cross-platform
-- runFlow: ../features/auth/happy-path/biometric-login-ios.yaml # iOS-specific
-- runFlow: ../features/auth/happy-path/sign-up-flow-ios.yaml    # iOS-specific
-```
-
-### Cross-Platform Quality Gates
-```yaml
-# flows/quality-gates/smoke-suite.yaml
-name: "Smoke Test Suite - Cross Platform"
-tags:
-  - quality-gate
-  - platform:ios
-  - platform:android
----
-- runFlow: ../features/auth/happy-path/login-user.yaml     # Cross-platform only
-- runFlow: ../features/payments/happy-path/send-money.yaml # Cross-platform only
+- runFlow: ../features/auth/happy-path/sign-up-flow-ios.yaml
+- runFlow: ../features/auth/happy-path/biometric-login-ios.yaml
 ```
 
 ## ⚠️ Common Pitfalls

@@ -19,9 +19,9 @@ appId: ${APP_ID}
 - runFlow:
     when:
       visible: "Welcome back"
-    file: sub/soft-sign-in-ios.yaml
+    file: sub/soft-sign-in-android.yaml
 
 - runFlow:
     when:
       visible: "Sign Up"
-    file: sub/normal-sign-in-ios.yaml
+    file: sub/normal-sign-in-android.yaml

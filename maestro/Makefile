@@ -10,7 +10,7 @@ GREEN = \033[1;32m
 RED = \033[1;31m
 NC = \033[0m # No Color
 
-.PHONY: help setup test-smoke test-regression test-auth test-ios test-android test-all clean
+.PHONY: help setup test-smoke-mobile test-smoke-android test-regression-mobile test-ios test-android test-cross clean
 
 # Default target
 help:
@@ -20,28 +20,13 @@ help:
 	@echo "  make setup              - Setup test environment"
 	@echo ""
 	@echo "$(GREEN)Quality Gates:$(NC)"
-	@echo "  make test-smoke         - Run smoke test suite"
 	@echo "  make test-smoke-ios     - Run iOS-specific smoke tests"
-	@echo "  make test-regression    - Run daily regression suite"
-	@echo ""
-	@echo "$(GREEN)Feature Tests:$(NC)"
-	@echo "  make test-auth          - Run all authentication tests"
-	@echo "  make test-auth-happy    - Run authentication happy paths only"
+	@echo "  make test-smoke-android - Run Android-specific smoke tests"
+	@echo "  make test-regression-mobile - Run daily regression suite for both platforms"
 	@echo ""
 	@echo "$(GREEN)Platform Tests:$(NC)"
-	@echo "  make test-ios           - Run all iOS tests"
-	@echo "  make test-android       - Run all Android tests"
-	@echo "  make test-cross         - Run cross-platform tests only"
-	@echo ""
-	@echo "$(GREEN)Comprehensive Tests:$(NC)"
-	@echo "  make test-all-happy     - Run all happy path tests"
-	@echo "  make test-all           - Run all tests"
-	@echo ""
-	@echo "$(GREEN)Custom Tag Tests:$(NC)"
-	@echo "  make test-by-tag INCLUDE_TAGS=\"tag1,tag2\" - Run tests with specific tags"
-	@echo "  make test-by-tag EXCLUDE_TAGS=\"tag3\"      - Exclude tests with specific tags"
-	@echo "  make test-p0            - Run P0 priority tests"
-	@echo "  make test-p1            - Run P1 priority tests"
+	@echo "  make test-ios SUITES=\"auth-ios\" - Run iOS test suites"
+	@echo "  make test-android SUITES=\"auth-android\" - Run Android test suites"
 	@echo ""
 	@echo "$(GREEN)Utility:$(NC)"
 	@echo "  make clean              - Clean reports and screenshots"
@@ -59,139 +44,112 @@ setup:
 	@echo "$(GREEN)Setup complete!$(NC)"
 
 # Quality Gates
-test-smoke:
-	@echo "$(YELLOW)Running smoke test suite on $(ENV)...$(NC)"
-	@ENV_VARS=$$($(MAKE) -s extract-env-vars ENV=$(ENV)); \
-	maestro test flows/quality-gates/smoke-suite.yaml \
+test-smoke-android:
+	@echo "$(YELLOW)Running Android smoke tests on $(ENV)...$(NC)"
+	@ENV_VARS=$$($(MAKE) -s extract-env-vars ENV=$(ENV) PLATFORM=android); \
+	echo "$(YELLOW)Using environment variables: $$ENV_VARS$(NC)"; \
+	maestro test flows/quality-gates/smoke-suite-android.yaml \
 		$$ENV_VARS \
 		--format junit \
-		--output reports/smoke-$(ENV)
+		--output reports/smoke-android-$(ENV)
 
 test-smoke-ios: check-ios-simulator install-app
 	@echo "$(YELLOW)Running iOS smoke tests on $(ENV)...$(NC)"
-	@ENV_VARS=$$($(MAKE) -s extract-env-vars ENV=$(ENV)); \
+	@ENV_VARS=$$($(MAKE) -s extract-env-vars ENV=$(ENV) PLATFORM=ios); \
 	echo "$(YELLOW)Using environment variables: $$ENV_VARS$(NC)"; \
 	maestro test flows/quality-gates/smoke-suite-ios.yaml \
 		$$ENV_VARS \
 		--format junit \
 		--output reports/smoke-ios-$(ENV)
 
-test-regression:
-	@echo "$(YELLOW)Running daily regression suite on $(ENV)...$(NC)"
-	@ENV_VARS=$$($(MAKE) -s extract-env-vars ENV=$(ENV)); \
+test-regression-mobile:
+	@echo "$(YELLOW)Running daily regression suite for both iOS and Android on $(ENV)...$(NC)"
+	@ENV_VARS_IOS=$$($(MAKE) -s extract-env-vars ENV=$(ENV) PLATFORM=ios); \
+	ENV_VARS_ANDROID=$$($(MAKE) -s extract-env-vars ENV=$(ENV) PLATFORM=android); \
+	echo "$(YELLOW)Running iOS regression tests...$(NC)"; \
 	maestro test flows/quality-gates/daily-regression.yaml \
-		$$ENV_VARS \
+		$$ENV_VARS_IOS \
+		--include-tags="platform:ios" \
 		--format junit \
-		--output reports/regression-$(ENV)
+		--output reports/regression-ios-$(ENV); \
+	echo "$(YELLOW)Running Android regression tests...$(NC)"; \
+	maestro test flows/quality-gates/daily-regression.yaml \
+		$$ENV_VARS_ANDROID \
+		--include-tags="platform:android" \
+		--format junit \
+		--output reports/regression-android-$(ENV)
 
-# Feature Tests
-test-auth:
-	@echo "$(YELLOW)Running all authentication tests on $(ENV)...$(NC)"
-	@ENV_VARS=$$($(MAKE) -s extract-env-vars ENV=$(ENV)); \
-	maestro test flows/test-suites/auth-all.yaml \
-		$$ENV_VARS \
-		--format junit \
-		--output reports/auth-all-$(ENV)
-
-test-auth-happy:
-	@echo "$(YELLOW)Running authentication happy path tests on $(ENV)...$(NC)"
-	@ENV_VARS=$$($(MAKE) -s extract-env-vars ENV=$(ENV)); \
-	maestro test flows/features/auth/happy-path/ \
-		$$ENV_VARS \
-		--format junit \
-		--output reports/auth-happy-$(ENV)
 
 # Platform-Specific Tests
 test-ios: check-ios-simulator install-app
-	@echo "$(YELLOW)Running all iOS tests on $(ENV)...$(NC)"
-	@ENV_VARS=$$($(MAKE) -s extract-env-vars ENV=$(ENV)); \
-	maestro test flows/features/auth/happy-path/ flows/features/auth/negative/ flows/features/auth/edge-cases/ \
-		--include-tags="platform:ios" \
+	@echo "$(YELLOW)Running iOS test suites on $(ENV)...$(NC)"
+	@if [ -z "$(SUITES)" ]; then \
+		echo "$(RED)Error: SUITES parameter required.$(NC)"; \
+		echo "$(YELLOW)Usage examples:$(NC)"; \
+		echo "  make test-ios SUITES=\"auth-ios\""; \
+		echo "  make test-ios SUITES=\"auth-ios,payment-ios\""; \
+		echo "$(YELLOW)Available test suites:$(NC)"; \
+		ls flows/test-suites/*ios*.yaml 2>/dev/null | sed 's/flows\/test-suites\///g; s/\.yaml//g' | sed 's/^/  - /' || echo "  No iOS test suites found"; \
+		exit 1; \
+	fi; \
+	ENV_VARS=$$($(MAKE) -s extract-env-vars ENV=$(ENV) PLATFORM=ios); \
+	echo "$(YELLOW)Environment variables: $$ENV_VARS$(NC)"; \
+	SUITE_FILES=""; \
+	IFS=','; \
+	for suite in $(SUITES); do \
+		SUITE_FILE="flows/test-suites/$$suite.yaml"; \
+		if [ -f "$$SUITE_FILE" ]; then \
+			if [ -z "$$SUITE_FILES" ]; then \
+				SUITE_FILES="$$SUITE_FILE"; \
+			else \
+				SUITE_FILES="$$SUITE_FILES $$SUITE_FILE"; \
+			fi; \
+			echo "$(YELLOW)Adding test suite: $$SUITE_FILE$(NC)"; \
+		else \
+			echo "$(RED)Test suite not found: $$SUITE_FILE$(NC)"; \
+			exit 1; \
+		fi; \
+	done; \
+	echo "$(YELLOW)Running test suites: $$SUITE_FILES$(NC)"; \
+	maestro test $$SUITE_FILES \
 		$$ENV_VARS \
 		--format junit \
-		--output reports/ios-all-$(ENV)
+		--output reports/ios-$(ENV)
 
 test-android:
-	@echo "$(YELLOW)Running all Android tests on $(ENV)...$(NC)"
-	@ENV_VARS=$$($(MAKE) -s extract-env-vars ENV=$(ENV)); \
-	maestro test flows/features/auth/happy-path/ flows/features/auth/negative/ flows/features/auth/edge-cases/ \
-		--include-tags="platform:android" \
-		$$ENV_VARS \
-		--format junit \
-		--output reports/android-all-$(ENV)
-
-test-cross:
-	@echo "$(YELLOW)Running cross-platform tests on $(ENV)...$(NC)"
-	@ENV_VARS=$$($(MAKE) -s extract-env-vars ENV=$(ENV)); \
-	maestro test flows/features/auth/happy-path/ flows/features/auth/negative/ flows/features/auth/edge-cases/ \
-		--include-tags="platform:ios,platform:android" \
-		$$ENV_VARS \
-		--format junit \
-		--output reports/cross-platform-$(ENV)
-
-# Comprehensive Tests
-test-all-happy:
-	@echo "$(YELLOW)Running all happy path tests on $(ENV)...$(NC)"
-	@ENV_VARS=$$($(MAKE) -s extract-env-vars ENV=$(ENV)); \
-	maestro test flows/test-suites/all-happy-paths.yaml \
-		$$ENV_VARS \
-		--format junit \
-		--output reports/all-happy-$(ENV)
-
-test-all:
-	@echo "$(YELLOW)Running all tests on $(ENV)...$(NC)"
-	@ENV_VARS=$$($(MAKE) -s extract-env-vars ENV=$(ENV)); \
-	maestro test flows/features/auth/happy-path/ flows/features/auth/negative/ flows/features/auth/edge-cases/ \
-		$$ENV_VARS \
-		--format junit \
-		--output reports/all-tests-$(ENV)
-
-# Custom tag testing
-test-by-tag:
-	@if [ -z "$(INCLUDE_TAGS)" ] && [ -z "$(EXCLUDE_TAGS)" ]; then \
-		echo "$(RED)Error: INCLUDE_TAGS or EXCLUDE_TAGS parameter required.$(NC)"; \
+	@echo "$(YELLOW)Running Android test suites on $(ENV)...$(NC)"
+	@if [ -z "$(SUITES)" ]; then \
+		echo "$(RED)Error: SUITES parameter required.$(NC)"; \
 		echo "$(YELLOW)Usage examples:$(NC)"; \
-		echo "  make test-by-tag INCLUDE_TAGS=\"feature:auth\""; \
-		echo "  make test-by-tag INCLUDE_TAGS=\"priority:p0,platform:ios\""; \
-		echo "  make test-by-tag EXCLUDE_TAGS=\"priority:p3\""; \
-		echo "  make test-by-tag INCLUDE_TAGS=\"feature:auth\" EXCLUDE_TAGS=\"negative\""; \
+		echo "  make test-android SUITES=\"auth-android\""; \
+		echo "  make test-android SUITES=\"auth-android,payment-android\""; \
+		echo "$(YELLOW)Available test suites:$(NC)"; \
+		ls flows/test-suites/*android*.yaml 2>/dev/null | sed 's/flows\/test-suites\///g; s/\.yaml//g' | sed 's/^/  - /' || echo "  No Android test suites found"; \
 		exit 1; \
-	fi
-	@TAG_ARGS=""; \
-	if [ -n "$(INCLUDE_TAGS)" ]; then \
-		TAG_ARGS="$$TAG_ARGS --include-tags=$(INCLUDE_TAGS)"; \
-		echo "$(YELLOW)Including tags: $(INCLUDE_TAGS)$(NC)"; \
 	fi; \
-	if [ -n "$(EXCLUDE_TAGS)" ]; then \
-		TAG_ARGS="$$TAG_ARGS --exclude-tags=$(EXCLUDE_TAGS)"; \
-		echo "$(YELLOW)Excluding tags: $(EXCLUDE_TAGS)$(NC)"; \
-	fi; \
-	echo "$(YELLOW)Running tests with tag filters on $(ENV)...$(NC)"; \
-	ENV_VARS=$$($(MAKE) -s extract-env-vars ENV=$(ENV)); \
-	maestro test flows/features/auth/happy-path/ flows/features/auth/negative/ flows/features/auth/edge-cases/ \
-		$$TAG_ARGS \
+	ENV_VARS=$$($(MAKE) -s extract-env-vars ENV=$(ENV) PLATFORM=android); \
+	echo "$(YELLOW)Environment variables: $$ENV_VARS$(NC)"; \
+	SUITE_FILES=""; \
+	IFS=','; \
+	for suite in $(SUITES); do \
+		SUITE_FILE="flows/test-suites/$$suite.yaml"; \
+		if [ -f "$$SUITE_FILE" ]; then \
+			if [ -z "$$SUITE_FILES" ]; then \
+				SUITE_FILES="$$SUITE_FILE"; \
+			else \
+				SUITE_FILES="$$SUITE_FILES $$SUITE_FILE"; \
+			fi; \
+			echo "$(YELLOW)Adding test suite: $$SUITE_FILE$(NC)"; \
+		else \
+			echo "$(RED)Test suite not found: $$SUITE_FILE$(NC)"; \
+			exit 1; \
+		fi; \
+	done; \
+	echo "$(YELLOW)Running test suites: $$SUITE_FILES$(NC)"; \
+	maestro test $$SUITE_FILES \
 		$$ENV_VARS \
 		--format junit \
-		--output reports/tag-$(ENV)
-
-# Priority testing
-test-p0:
-	@echo "$(YELLOW)Running P0 priority tests on $(ENV)...$(NC)"
-	@ENV_VARS=$$($(MAKE) -s extract-env-vars ENV=$(ENV)); \
-	maestro test flows/features/auth/happy-path/ flows/features/auth/negative/ flows/features/auth/edge-cases/ \
-		--include-tags="priority:p0" \
-		$$ENV_VARS \
-		--format junit \
-		--output reports/p0-$(ENV)
-
-test-p1:
-	@echo "$(YELLOW)Running P1 priority tests on $(ENV)...$(NC)"
-	@ENV_VARS=$$($(MAKE) -s extract-env-vars ENV=$(ENV)); \
-	maestro test flows/features/auth/happy-path/ flows/features/auth/negative/ flows/features/auth/edge-cases/ \
-		--include-tags="priority:p1" \
-		$$ENV_VARS \
-		--format junit \
-		--output reports/p1-$(ENV)
+		--output reports/android-$(ENV)
 
 # Utility commands
 clean:
@@ -215,26 +173,26 @@ validate-tags:
 # Development helpers
 dev-smoke:
 	@echo "$(YELLOW)Running smoke tests in development mode...$(NC)"
-	@make test-smoke ENV=dev
+	@make test-smoke-mobile ENV=dev
 
 staging-smoke:
 	@echo "$(YELLOW)Running smoke tests in staging mode...$(NC)"
-	@make test-smoke ENV=staging
+	@make test-smoke-mobile ENV=staging
 
 prod-smoke:
 	@echo "$(YELLOW)Running smoke tests in production mode...$(NC)"
-	@make test-smoke ENV=prod
+	@make test-smoke-mobile ENV=prod
 
 # Quick test commands
 quick-auth:
 	@echo "$(YELLOW)Running quick auth validation...$(NC)"
-	@ENV_VARS=$$($(MAKE) -s extract-env-vars ENV=$(ENV)); \
+	@ENV_VARS=$$($(MAKE) -s extract-env-vars ENV=$(ENV) PLATFORM=ios); \
 	maestro test flows/features/auth/happy-path/sign-up-flow.yaml \
 		$$ENV_VARS
 
 quick-ios: check-ios-simulator install-app
 	@echo "$(YELLOW)Running quick iOS validation...$(NC)"
-	@ENV_VARS=$$($(MAKE) -s extract-env-vars ENV=$(ENV)); \
+	@ENV_VARS=$$($(MAKE) -s extract-env-vars ENV=$(ENV) PLATFORM=ios); \
 	maestro test flows/features/auth/happy-path/sign-in-ios.yaml \
 		$$ENV_VARS
 
@@ -362,8 +320,15 @@ install-app:
 
 # Helper function to extract environment variables from YAML config
 extract-env-vars:
-	@if [ ! -f "configs/env-$(ENV).yaml" ]; then \
-		echo "$(RED)Config file not found: configs/env-$(ENV).yaml$(NC)"; \
+	@if [ -n "$(PLATFORM)" ]; then \
+		CONFIG_FILE="configs/env-$(ENV)-$(PLATFORM).yaml"; \
+	else \
+		CONFIG_FILE="configs/env-$(ENV).yaml"; \
+	fi; \
+	if [ ! -f "$$CONFIG_FILE" ]; then \
+		echo "$(RED)Config file not found: $$CONFIG_FILE$(NC)"; \
+		echo "$(YELLOW)Available config files:$(NC)"; \
+		ls configs/env-*.yaml 2>/dev/null || echo "  No config files found"; \
 		exit 1; \
 	fi; \
-	grep -A 20 "^env:" configs/env-$(ENV).yaml | grep "^  [A-Z_]" | sed 's/^  /-e /;s/: */=/;s/"//g' | tr '\n' ' '
+	grep -A 20 "^env:" "$$CONFIG_FILE" | grep "^  [A-Z_]" | sed 's/^  /-e /;s/: */=/;s/"//g' | tr '\n' ' '

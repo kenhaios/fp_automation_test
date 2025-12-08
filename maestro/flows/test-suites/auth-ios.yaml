@@ -4,12 +4,12 @@ tags:
   - test-suite
   - feature:auth
   - platform:ios
+env:
+  APP_ID: com.fasterpay.app.staging
+  TEST_USER: iosus02@fp.com
+  TEST_PASSWORD: "12345Aa@"
 appId: ${APP_ID}
 ---
 # iOS Happy Path Tests
 - runFlow: ../features/auth/happy-path/sign-up-flow-ios.yaml
 - runFlow: ../features/auth/happy-path/sign-in-ios.yaml
-
-# Future: iOS-specific cases
-# - runFlow: ../features/auth/ios-specific/biometric-auth-ios.yaml
-# - runFlow: ../features/auth/ios-specific/keychain-integration-ios.yaml

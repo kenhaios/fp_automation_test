@@ -33,8 +33,11 @@ make setup
 
 ### 3. Run Your First Test
 ```bash
-# Quick smoke test
-make test-smoke
+# Quick smoke test for iOS
+make test-smoke-ios
+
+# Quick smoke test for Android
+make test-smoke-android
 
 # Or run a specific test
 maestro test flows/features/auth/happy-path/sign-up-flow.yaml
@@ -60,22 +63,26 @@ maestro test flows/features/auth/happy-path/sign-up-flow.yaml
 
 ### Quality Gates (Most Important)
 ```bash
-make test-smoke              # 🔥 Run critical path tests
-make test-regression         # 📊 Run comprehensive daily tests
+make test-smoke-ios          # 🔥 Run iOS critical path tests
+make test-smoke-android      # 🔥 Run Android critical path tests
+make test-regression-mobile  # 📊 Run comprehensive daily tests for both platforms
 ```
 
 ### Development Testing
 ```bash
-make test-auth-happy         # ✅ Quick auth validation
 make quick-auth             # ⚡ Super quick auth check
-ENV=dev make test-smoke     # 🛠️ Test on development environment
+make quick-ios              # ⚡ Quick iOS validation
+ENV=dev make test-smoke-ios # 🛠️ Test iOS on development environment
+ENV=dev make test-smoke-android # 🛠️ Test Android on development environment
 ```
 
-### Platform-Specific Testing
+### Suite-Based Testing
 ```bash
-make test-ios               # 🍎 All iOS tests
-make test-android          # 🤖 All Android tests
-make test-cross            # 🔄 Cross-platform tests only
+make test-ios SUITES="auth-ios"              # 🍎 Run iOS authentication suite
+make test-android SUITES="auth-android"      # 🤖 Run Android authentication suite
+make test-ios SUITES="auth-ios,payment-ios"  # 🍎 Run multiple iOS suites
+make test-ios                               # 🍎 List available iOS suites
+make test-android                           # 🤖 List available Android suites
 ```
 
 ## Environment Selection
@@ -88,11 +95,15 @@ make test-cross            # 🔄 Cross-platform tests only
 ### Usage
 ```bash
 # Default (staging)
-make test-smoke
+make test-smoke-ios
 
 # Specific environment
-ENV=dev make test-smoke
-ENV=prod make test-smoke
+ENV=dev make test-smoke-ios
+ENV=prod make test-smoke-ios
+
+# Android testing
+ENV=dev make test-smoke-android
+ENV=staging make test-smoke-android
 ```
 
 ## Your First Custom Test
@@ -178,11 +189,13 @@ maestro studio
 # Check if all tags are correct
 make validate-tags
 
-# Run a comprehensive test
-make test-auth
+# Run test suites
+make test-ios SUITES="auth-ios"
+make test-android SUITES="auth-android"
 
-# Generate a test report
-make test-smoke ENV=staging
+# Generate test reports
+make test-smoke-ios ENV=staging
+make test-smoke-android ENV=staging
 ```
 
 ## Getting Help
@@ -190,7 +203,8 @@ make test-smoke ENV=staging
 ### Available Commands
 ```bash
 make help                    # Show all available commands
-./scripts/run-tests.sh      # Show all available test suites
+make test-ios               # Show available iOS test suites
+make test-android           # Show available Android test suites
 ```
 
 ### Common File Locations

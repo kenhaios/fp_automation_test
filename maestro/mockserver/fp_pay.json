@@ -1,0 +1,260 @@
+{
+  "uuid": "08e925de-a767-406b-a8b9-07480db90dad",
+  "lastMigration": 32,
+  "name": "Fp pay",
+  "endpointPrefix": "",
+  "latency": 0,
+  "port": 3103,
+  "hostname": "",
+  "folders": [],
+  "routes": [
+    {
+      "uuid": "f54aae75-1dbd-4a9c-abb6-5522de58bafc",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "",
+      "responses": [
+        {
+          "uuid": "c8a892f1-7ad4-421b-8329-00f07de77710",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "283538f9-cce5-46ca-bcbf-3369a2d91c7d",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "mobile/v2/topup/paybybanque/calculate",
+      "responses": [
+        {
+          "uuid": "78d7c868-08e6-40d6-ab62-0ddc5b7d979e",
+          "body": "{\"success\":true,\"data\":{\"amount_paid\":16.77,\"amount_type\":\"receive\",\"topup_fee\":1.76,\"credit_amount\":15,\"currency_code\":\"GBP\",\"price\":{\"id\":12,\"strategy\":\"flat_maintain\",\"percentage\":\"0.00\",\"fixed\":\"2.00\",\"currency_id\":2,\"rolling_reserve\":\"5.00\",\"merchant_id\":1,\"ps_id\":6,\"country\":\"ROW\",\"tenant_id\":1,\"tenant_percentage\":\"0.00\",\"tenant_fixed\":\"0.00\",\"deleted_at\":0,\"created_at\":\"2024-11-13 11:56:20\",\"updated_at\":\"2024-11-13 11:56:20\",\"currency\":{\"id\":2,\"code\":\"EUR\",\"status\":\"enabled\"}},\"fixed_fee_amount\":1.756632064590542,\"merchant\":{\"id\":1,\"company_name\":\"Fasterpay\",\"public_api_key\":\"fab703231415b67e45c414c5d2cf559x\",\"pingback_url\":null,\"onboarded_date\":null}}}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "access-control-allow-credentials",
+              "value": "true"
+            },
+            {
+              "key": "access-control-allow-headers",
+              "value": "*"
+            },
+            {
+              "key": "access-control-allow-methods",
+              "value": "POST, GET, DELETE, PUT, OPTIONS"
+            },
+            {
+              "key": "access-control-allow-origin",
+              "value": ""
+            },
+            {
+              "key": "cache-control",
+              "value": "no-store, no-cache, must-revalidate, no-cache, private"
+            },
+            {
+              "key": "connection",
+              "value": "close"
+            },
+            {
+              "key": "content-type",
+              "value": "application/json"
+            },
+            {
+              "key": "date",
+              "value": "Mon, 08 Dec 2025 04:28:53 GMT"
+            },
+            {
+              "key": "expires",
+              "value": "Thu, 19 Nov 1981 08:52:00 GMT"
+            },
+            {
+              "key": "fp-session-id",
+              "value": "eyJpdiI6IkdaTVRXV1lqUm9JV3NiMDNNYkkxaFE9PSIsInZhbHVlIjoiR2wxOHd4a1k0U1BtUnppRzJ5N3RaTWRSSDdtanpPU1d3ZFRaZlpHRkJMY3lOeG0yczhncFwvcll3bUlQNDZLOFc0YXNkOUV4NDJpWmNMRlcrWFBIM1RjUUs3UkdJS0U0a2s2WTgzREMrWmRZPSIsIm1hYyI6IjZlMDA5N2YyYjAxNWE1Y2ExNjg0YWY0NmIyODU3MzRkZDBiYmQ2ZjJlYmIzODVlOTU1ZmVjNmQ1NjNkZWI0M2EifQ=="
+            },
+            {
+              "key": "pragma",
+              "value": "no-cache"
+            },
+            {
+              "key": "set-cookie",
+              "value": "PHPSESSID=f7f5c40e1bdd5325458f92879bdab767; path=/; secure; HttpOnly,FP-Session-ID=eyJpdiI6IkdaTVRXV1lqUm9JV3NiMDNNYkkxaFE9PSIsInZhbHVlIjoiR2wxOHd4a1k0U1BtUnppRzJ5N3RaTWRSSDdtanpPU1d3ZFRaZlpHRkJMY3lOeG0yczhncFwvcll3bUlQNDZLOFc0YXNkOUV4NDJpWmNMRlcrWFBIM1RjUUs3UkdJS0U0a2s2WTgzREMrWmRZPSIsIm1hYyI6IjZlMDA5N2YyYjAxNWE1Y2ExNjg0YWY0NmIyODU3MzRkZDBiYmQ2ZjJlYmIzODVlOTU1ZmVjNmQ1NjNkZWI0M2EifQ%3D%3D; expires=Tue, 09-Dec-2025 04:28:53 GMT; Max-Age=86400; path=/; httponly"
+            },
+            {
+              "key": "via",
+              "value": "1.1 google"
+            },
+            {
+              "key": "content-length",
+              "value": "668"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "499ebadf-834b-43ee-b516-89dff5931210",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "mobile/v2/topup/PO-251208-0813/polling-status",
+      "responses": [
+        {
+          "uuid": "ecd3a7bf-2b3b-40e4-89f4-4c79e20a7c56",
+          "body": "{\"success\":true,\"data\":{\"status\":\"\"}}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "access-control-allow-credentials",
+              "value": "true"
+            },
+            {
+              "key": "access-control-allow-headers",
+              "value": "*"
+            },
+            {
+              "key": "access-control-allow-methods",
+              "value": "POST, GET, DELETE, PUT, OPTIONS"
+            },
+            {
+              "key": "access-control-allow-origin",
+              "value": ""
+            },
+            {
+              "key": "cache-control",
+              "value": "no-store, no-cache, must-revalidate, no-cache, private"
+            },
+            {
+              "key": "connection",
+              "value": "close"
+            },
+            {
+              "key": "content-type",
+              "value": "application/json"
+            },
+            {
+              "key": "date",
+              "value": "Mon, 08 Dec 2025 04:29:29 GMT"
+            },
+            {
+              "key": "expires",
+              "value": "Thu, 19 Nov 1981 08:52:00 GMT"
+            },
+            {
+              "key": "fp-session-id",
+              "value": "eyJpdiI6IkdaTVRXV1lqUm9JV3NiMDNNYkkxaFE9PSIsInZhbHVlIjoiR2wxOHd4a1k0U1BtUnppRzJ5N3RaTWRSSDdtanpPU1d3ZFRaZlpHRkJMY3lOeG0yczhncFwvcll3bUlQNDZLOFc0YXNkOUV4NDJpWmNMRlcrWFBIM1RjUUs3UkdJS0U0a2s2WTgzREMrWmRZPSIsIm1hYyI6IjZlMDA5N2YyYjAxNWE1Y2ExNjg0YWY0NmIyODU3MzRkZDBiYmQ2ZjJlYmIzODVlOTU1ZmVjNmQ1NjNkZWI0M2EifQ=="
+            },
+            {
+              "key": "pragma",
+              "value": "no-cache"
+            },
+            {
+              "key": "set-cookie",
+              "value": "PHPSESSID=1cafbbe90387880822d5be05ed8d3ed8; path=/; secure; HttpOnly,FP-Session-ID=eyJpdiI6IkdaTVRXV1lqUm9JV3NiMDNNYkkxaFE9PSIsInZhbHVlIjoiR2wxOHd4a1k0U1BtUnppRzJ5N3RaTWRSSDdtanpPU1d3ZFRaZlpHRkJMY3lOeG0yczhncFwvcll3bUlQNDZLOFc0YXNkOUV4NDJpWmNMRlcrWFBIM1RjUUs3UkdJS0U0a2s2WTgzREMrWmRZPSIsIm1hYyI6IjZlMDA5N2YyYjAxNWE1Y2ExNjg0YWY0NmIyODU3MzRkZDBiYmQ2ZjJlYmIzODVlOTU1ZmVjNmQ1NjNkZWI0M2EifQ%3D%3D; expires=Tue, 09-Dec-2025 04:29:29 GMT; Max-Age=86400; path=/; httponly"
+            },
+            {
+              "key": "via",
+              "value": "1.1 google"
+            },
+            {
+              "key": "content-length",
+              "value": "37"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    }
+  ],
+  "rootChildren": [
+    {
+      "type": "route",
+      "uuid": "f54aae75-1dbd-4a9c-abb6-5522de58bafc"
+    },
+    {
+      "type": "route",
+      "uuid": "283538f9-cce5-46ca-bcbf-3369a2d91c7d"
+    },
+    {
+      "type": "route",
+      "uuid": "499ebadf-834b-43ee-b516-89dff5931210"
+    }
+  ],
+  "proxyMode": true,
+  "proxyHost": "http://develop.pay2.fasterpay.bamboo.stuffio.com/",
+  "proxyRemovePrefix": false,
+  "tlsOptions": {
+    "enabled": false,
+    "type": "CERT",
+    "pfxPath": "",
+    "certPath": "",
+    "keyPath": "",
+    "caPath": "",
+    "passphrase": ""
+  },
+  "cors": true,
+  "headers": [
+    {
+      "key": "Content-Type",
+      "value": "application/json"
+    }
+  ],
+  "proxyReqHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "proxyResHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "data": [],
+  "callbacks": []
+}

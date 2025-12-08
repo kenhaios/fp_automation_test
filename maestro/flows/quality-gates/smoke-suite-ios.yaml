@@ -1,6 +1,6 @@
 name: "Smoke Test Suite - iOS Specific"
 description: "Critical iOS-specific paths for release validation"
-last-updated: 2024-12-05
+last-updated: 2025-12-05
 curated-by: QA-Lead
 tags:
   - quality-gate
