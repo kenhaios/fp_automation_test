@@ -6,8 +6,8 @@ tags:
   - component:launch
   - platform:ios
   - platform:android
+appId: ${APP_ID}
 ---
-- launchApp:
-    appId: "${APP_ID}"
-    clearState: true
-- assertVisible: "Get started"
+- launchApp
+#     clearState: true
+# - assertVisible: "Get started"

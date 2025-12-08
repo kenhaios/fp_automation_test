@@ -9,6 +9,7 @@ tags:
   - daily
   - platform:ios
   - platform:android
+appId: ${APP_ID}
 ---
 # App Launch
 - runFlow: ../shared-components/navigation/app-launch.yaml

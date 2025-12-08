@@ -1,0 +1,83 @@
+name: "Normal Sign In Flow - Shared Component"
+description: "Reusable normal sign in flow component for all tests"
+tags:
+  - shared
+  - auth
+  - component:normal-sign-in
+  - platform:ios
+  - platform:android
+env:
+  EMAIL: "${TEST_USER}"
+  PASSWORD: "${TEST_PASSWORD}"
+  PASSCODE: "0"
+appId: ${APP_ID}
+---
+- launchApp:
+    appId: "${APP_ID}"
+- tapOn: Log In
+- tapOn: Enter phone or email
+- inputText: "${EMAIL}"
+- tapOn: Password
+- inputText: "${PASSWORD}"
+- doubleTapOn:
+    text: Log In
+    index: -1
+- runFlow:
+    when:
+      visible: "Continue in.*"
+    commands:
+      - tapOn: "Continue in.*"
+- runFlow:
+    when:
+      visible: "We'll send a code to your phone number.*"
+    commands:
+      - tapOn: Try another method
+      - tapOn: Send code by Email
+- extendedWaitUntil:
+    visible: "ENTER THE VERIFICATION CODE"
+    timeout: 15000
+- runScript:
+    file: ../../../../../scripts/sms-helper.js
+    env:
+      MESSAGE_TYPE: "email"
+      EMAIL_ADDRESS: "${EMAIL}"
+- inputText: ${output.otp}
+- extendedWaitUntil:
+    visible: "CREATE PASSCODE"
+    timeout: 15000
+- tapOn:
+    text: "${PASSCODE}"
+    repeat: 6
+    delay: 500
+- tapOn:
+    text: "${PASSCODE}"
+    repeat: 6
+    delay: 500
+- runFlow:
+    when:
+      visible: "Allow Biometric ID?"
+    commands:
+      - tapOn: Do it later
+
+- runFlow:
+    when:
+      visible: "Failed to create chat user.*"
+    commands:
+      - tapOn: Cancel
+
+- runFlow:
+    when:
+      visible:
+        id: ic_close_banner
+    commands:
+      - tapOn:
+          id: ic_close_banner
+
+- runFlow:
+    when:
+      visible: "This feature is un.*"
+    commands:
+      - tapOn: Cancel
+
+- assertVisible: ACCOUNT
+- assertVisible: Add money

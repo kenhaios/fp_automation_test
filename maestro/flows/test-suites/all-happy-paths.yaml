@@ -6,6 +6,7 @@ tags:
   - quick-validation
   - platform:ios
   - platform:android
+appId: ${APP_ID}
 ---
 # Authentication Happy Paths
 - runFlow: ../features/auth/happy-path/sign-up-flow.yaml

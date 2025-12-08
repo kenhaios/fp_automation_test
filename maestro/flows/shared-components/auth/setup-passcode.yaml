@@ -8,6 +8,7 @@ tags:
   - platform:android
 env:
   PASSCODE: "0"
+appId: ${APP_ID}
 ---
 - tapOn:
     id: rvPasscodeView

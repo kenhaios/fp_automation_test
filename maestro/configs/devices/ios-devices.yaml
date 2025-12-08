@@ -1,11 +1,11 @@
 devices:
   ios:
     simulator:
+      - name: "iPhone 16"
+        version: "18.0" 
+        orientation: portrait
       - name: "iPhone 15 Pro"
         version: "17.0"
-        orientation: portrait
-      - name: "iPhone 15"
-        version: "17.0" 
         orientation: portrait
       - name: "iPhone 14 Pro Max"
         version: "16.4"

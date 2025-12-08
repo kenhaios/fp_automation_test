@@ -26,8 +26,10 @@ maestro/
 
 ### Prerequisites
 - [Maestro CLI](https://maestro.mobile.dev/) installed
-- FasterPay mobile app (iOS/Android)
+- FasterPay mobile app builds (iOS/Android)
+- Xcode (for iOS testing and app building)
 - Make (for using Makefile commands)
+- iOS Simulator (managed automatically)
 
 ### Setup
 ```bash
@@ -37,9 +39,28 @@ cd maestro/
 # Setup environment
 make setup
 
-# Run smoke tests
-make test-smoke
+# Build and copy your iOS app (see App Build Guide)
+# Place FasterPay.app in build/staging/ directory
+
+# Run smoke tests (automatically starts simulator & installs app)
+make test-smoke-ios
 ```
+
+### App Build Setup (Required for iOS Testing)
+Before running iOS tests, you need to build and place the FasterPay iOS app:
+
+1. **Build the app** using Xcode or command line
+2. **Copy .app file** to the correct directory:
+   ```bash
+   # For staging tests (default)
+   cp -R /path/to/FasterPay.app build/staging/
+   
+   # For dev tests  
+   cp -R /path/to/FasterPay.app build/dev/
+   ```
+3. **Run tests** - the app will be automatically installed
+
+📖 **See [App Build Guide](docs/APP_BUILD_GUIDE.md) for detailed instructions**
 
 ## 🎮 Common Commands
 
@@ -191,6 +212,8 @@ make test-android
 ## 🆘 Troubleshooting
 
 ### Common Issues
+- **App not found error**: Build and copy .app file to build/ directory (see App Build Guide)
+- **No iOS simulator running**: Run `make check-ios-simulator` to start one automatically
 - **App not launching**: Check APP_ID in environment config
 - **Element not found**: Verify element IDs in app
 - **Tests flaky**: Add appropriate waits and retries
@@ -203,11 +226,9 @@ make help                    # Show all available commands
 
 ## 📚 Documentation
 
+- [App Build Guide](docs/APP_BUILD_GUIDE.md) - **Required for iOS testing**
 - [Quick Start Guide](docs/QUICK_START.md)
-- [Writing Tests](docs/WRITING_TESTS.md)
 - [Platform Conventions](docs/PLATFORM_CONVENTIONS.md)
-- [Quality Gates](docs/QUALITY_GATES.md)
-- [CI/CD Integration](docs/CI_CD_INTEGRATION.md)
 
 ## 🤝 Contributing
 

@@ -6,6 +6,7 @@ tags:
   - component:logout
   - platform:ios
   - platform:android
+appId: ${APP_ID}
 ---
 - tapOn:
     id: imgSetting

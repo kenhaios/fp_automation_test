@@ -6,6 +6,7 @@ tags:
   - comprehensive
   - platform:ios
   - platform:android
+appId: ${APP_ID}
 ---
 # Happy Path Tests
 - runFlow: ../features/auth/happy-path/sign-up-flow.yaml

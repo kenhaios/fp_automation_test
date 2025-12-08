@@ -1,22 +1,23 @@
 env:
-  APP_ID: com.fasterpay.ewallet
+  APP_ID: com.fasterpay.app.staging
   ENVIRONMENT: staging
   BASE_URL: https://staging-api.fasterpay.com
   TIMEOUT: 30000
   RETRY_ATTEMPTS: 3
-  
+
   # Test user credentials
-  TEST_USER: test.user@fasterpay.staging
-  TEST_PASSWORD: "StagingPassword123!"
-  
+  TEST_USER: iosus02@fp.com
+  TEST_PASSWORD: "12345Aa@"
+  PASSCODE: 0
+
   # Phone and SMS settings
   PHONE_COUNTRY_CODE: "+1"
   SMS_TIMEOUT: 60000
-  
+
   # Test data
   DEFAULT_AMOUNT: "100"
   DEFAULT_CURRENCY: "USD"
-  
+
   # Device settings
   ANIMATION_DISABLED: true
   SCREENSHOT_ON_FAILURE: true

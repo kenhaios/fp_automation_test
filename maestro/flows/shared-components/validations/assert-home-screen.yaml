@@ -6,6 +6,7 @@ tags:
   - component:home
   - platform:ios
   - platform:android
+appId: ${APP_ID}
 ---
 - assertVisible: ACCOUNT
 - assertVisible: Add money

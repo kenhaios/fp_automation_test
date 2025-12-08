@@ -8,6 +8,7 @@ tags:
   - priority:p0
   - critical
   - platform:ios
+appId: ${APP_ID}
 ---
 # App Launch Validation
 - runFlow: ../shared-components/navigation/app-launch.yaml

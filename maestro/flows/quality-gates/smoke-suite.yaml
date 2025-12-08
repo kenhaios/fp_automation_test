@@ -9,6 +9,7 @@ tags:
   - critical
   - platform:ios
   - platform:android
+appId: ${APP_ID}
 ---
 # App Launch Validation
 - runFlow: ../shared-components/navigation/app-launch.yaml

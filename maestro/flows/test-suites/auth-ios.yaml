@@ -4,6 +4,7 @@ tags:
   - test-suite
   - feature:auth
   - platform:ios
+appId: ${APP_ID}
 ---
 # iOS Happy Path Tests
 - runFlow: ../features/auth/happy-path/sign-up-flow-ios.yaml
