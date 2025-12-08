@@ -79,20 +79,9 @@ make test-ios SUITES="auth-ios,payment-ios"        # Run multiple iOS suites
 make test-android SUITES="auth-android,payment-android" # Run multiple Android suites
 ```
 
-### Environment Testing
-```bash
-ENV=dev make test-smoke-ios      # Development environment
-ENV=staging make test-smoke-ios  # Staging environment (default)
-ENV=prod make test-smoke-ios     # Production environment
-```
-
 ## 📝 Writing Tests
 
 ### Platform Naming Convention
-
-#### Cross-platform tests
-- **Filename**: `feature-action.yaml` (no suffix)
-- **Tags**: Include both `platform:ios` and `platform:android`
 
 #### Platform-specific tests
 - **iOS**: `feature-action-ios.yaml` with `platform:ios` tag
@@ -134,27 +123,18 @@ env:
 ./scripts/run-tests.sh dev by-tag "feature:auth and priority:p1"
 ```
 
-### Tag Validation
-```bash
-# Validate all test tags
-make validate-tags
-
-# Or directly
-python3 scripts/validate-tags.py
-```
-
 ## 📊 Test Organization
 
 ### Quality Gates
-- **smoke-suite.yaml**: Critical paths for release validation
 - **smoke-suite-ios.yaml**: iOS-specific critical paths
+- **smoke-suite-android.yaml**: Android-specific critical paths
 - **daily-regression.yaml**: Comprehensive daily tests
 
 ### Feature Structure
 ```
 flows/features/auth/
 ├── happy-path/
-│   ├── sign-up-flow.yaml          # Cross-platform
+│   ├── sign-up-flow-android.yaml          # Android-specific
 │   ├── sign-up-flow-ios.yaml      # iOS specific
 │   └── sign-in-ios.yaml           # iOS specific
 ├── negative/
@@ -169,18 +149,15 @@ flows/features/auth/
 ## 🌍 Environment Configuration
 
 ### Available Environments
-- **dev**: Development environment
 - **staging**: Staging environment (default)
-- **prod**: Production environment (read-only tests)
+- **prod**: Production environment (in-progress)
 
 ### Configuration Files
 **iOS Configuration:**
-- `configs/env-dev-ios.yaml`
 - `configs/env-staging-ios.yaml` 
 - `configs/env-prod-ios.yaml`
 
 **Android Configuration:**
-- `configs/env-dev-android.yaml`
 - `configs/env-staging-android.yaml`
 - `configs/env-prod-android.yaml`
 
@@ -230,15 +207,5 @@ make test-android           # Show available Android test suites (when run witho
 ## 📚 Documentation
 
 - [App Build Guide](docs/APP_BUILD_GUIDE.md) - **Required for iOS testing**
-- [Quick Start Guide](docs/QUICK_START.md)
 - [Platform Conventions](docs/PLATFORM_CONVENTIONS.md)
-
-## 🤝 Contributing
-
-1. Follow the platform naming conventions
-2. Add proper tags to all tests
-3. Validate tags before committing: `make validate-tags`
-4. Run smoke tests: `make test-smoke`
-5. Update documentation as needed
-
----
+- [How to write test](docs/WRITING_TESTS.md)

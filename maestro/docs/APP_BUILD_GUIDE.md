@@ -22,8 +22,7 @@ The Maestro test framework requires the actual iOS app (.app file) to be install
 ### Environment Configurations
 
 The FasterPay app supports three environments:
-- **staging**: For testing against staging APIs
-- **dev**: For development testing  
+- **staging**: For testing against staging APIs 
 - **prod**: For production testing (use with caution)
 
 ### Build Steps
@@ -51,9 +50,6 @@ cd /path/to/fasterpay-ios-project
 # Build for staging
 xcodebuild -scheme FasterPay-Staging -destination "generic/platform=iOS Simulator" -derivedDataPath ./build
 
-# Build for dev  
-xcodebuild -scheme FasterPay-Dev -destination "generic/platform=iOS Simulator" -derivedDataPath ./build
-
 # Build for prod
 xcodebuild -scheme FasterPay-Prod -destination "generic/platform=iOS Simulator" -derivedDataPath ./build
 ```
@@ -74,8 +70,6 @@ maestro/
 ├── build/
 │   ├── staging/
 │   │   └── FasterPay.app     # Staging build
-│   ├── dev/
-│   │   └── FasterPay.app     # Dev build
 │   └── prod/
 │       └── FasterPay.app     # Prod build
 ```
@@ -107,13 +101,10 @@ Once your .app file is in place, the Maestro framework will automatically:
 
 ```bash
 # Run staging tests (default)
-make test-smoke-ios
-
-# Run dev tests
-make test-smoke-ios ENV=dev
+make test-ios SUITES="auth-ios"
 
 # Run prod tests  
-make test-smoke-ios ENV=prod
+make test-smoke-ios
 ```
 
 ### Manual App Installation
@@ -123,12 +114,6 @@ You can also install the app manually without running tests:
 ```bash
 # Install staging app
 make install-app
-
-# Install dev app
-make install-app ENV=dev
-
-# Install prod app
-make install-app ENV=prod
 ```
 
 ### Verify Installation
@@ -252,4 +237,3 @@ echo "✓ Built and installed FasterPay app for $ENV environment"
 - Check `maestro/build/README.md` for quick reference
 - Review Xcode build logs for compilation errors  
 - Use `make help` to see all available commands
-- Contact the QA team for environment-specific configuration questions

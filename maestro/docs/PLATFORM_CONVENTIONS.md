@@ -13,18 +13,6 @@ Our framework supports three types of tests:
 
 ### File Naming Rules
 
-#### Cross-Platform Tests
-```
-✅ CORRECT: sign-up-flow.yaml
-❌ WRONG:   sign-up-flow-cross.yaml
-❌ WRONG:   sign-up-flow-both.yaml
-
-# Tags required:
-tags:
-  - platform:ios
-  - platform:android
-```
-
 #### iOS-Specific Tests
 ```
 ✅ CORRECT: sign-up-flow-ios.yaml
@@ -48,36 +36,6 @@ tags:
 ```
 
 ## 🏗️ Test Structure Examples
-
-### Cross-Platform Test Template
-```yaml
-# flows/features/auth/happy-path/login-user.yaml
-name: "User Login - Happy Path - Cross Platform"
-description: "Standard user login flow that works on both platforms"
-tags:
-  - feature:auth
-  - test-type:happy-path
-  - priority:p1
-  - component:login
-  - owner:auth-team
-  - platform:ios
-  - platform:android
-env:
-  USERNAME: "${TEST_USER}"
-  PASSWORD: "${TEST_PASSWORD}"
----
-- runFlow: ../../shared-components/navigation/app-launch.yaml
-- tapOn: "Login"
-- tapOn:
-    id: usernameField  # Works on both platforms
-- inputText: "${USERNAME}"
-- tapOn:
-    id: passwordField  # Works on both platforms
-- inputText: "${PASSWORD}"
-- tapOn: "Sign In"
-- runFlow: ../../shared-components/validations/assert-home-screen.yaml
-```
-
 ### iOS-Specific Test Template
 ```yaml
 # flows/features/auth/happy-path/biometric-login-ios.yaml
@@ -125,20 +83,6 @@ tags:
 ```
 
 ## 🎭 When to Use Each Type
-
-### Cross-Platform Tests ✅
-Use when:
-- Core functionality works identically on both platforms
-- UI elements have the same IDs/text
-- User flows are identical
-- Business logic is the same
-
-**Examples:**
-- Basic login/signup flows
-- Standard navigation
-- Form submissions with common fields
-- API-driven content display
-
 ### iOS-Specific Tests 🍎
 Use when:
 - iOS-specific UI patterns (navigation controllers, alerts)
@@ -181,21 +125,6 @@ Use when:
     accessibilityId: loginButton
 ```
 
-### Platform-Specific Element Selection
-```yaml
-# iOS-specific selectors
-- tapOn:
-    xpath: "//XCUIElementTypeButton[@name='iOS Submit']"
-
-# Android-specific selectors  
-- tapOn:
-    xpath: "//android.widget.Button[@text='Android Submit']"
-
-# Platform-specific IDs
-- tapOn:
-    id: iosSpecificButtonId  # Only exists on iOS
-```
-
 ## 📊 Test Execution Strategies
 
 ### Running Suite-Based Tests
@@ -220,8 +149,8 @@ maestro test flows/features/auth/happy-path/login-user-ios.yaml
 maestro test flows/features/auth/happy-path/login-user-android.yaml
 
 # Run test suites with environment variables
-ENV=staging make test-ios SUITES="auth-ios"
-ENV=dev make test-android SUITES="auth-android"
+make test-ios SUITES="auth-ios"
+make test-android SUITES="auth-android"
 ```
 
 ### Quality Gate Execution
@@ -298,7 +227,7 @@ tags:
 - tapOn: "Logout"
 # iOS-specific confirmation alert
 - tapOn:
-    xpath: "//XCUIElementTypeAlert//XCUIElementTypeButton[@name='Logout']"
+    id: logOutButton
 ```
 
 ## 📈 Quality Gates Strategy
@@ -350,40 +279,16 @@ tags:
 
 ## ⚠️ Common Pitfalls
 
-### ❌ Don't Do This
-```yaml
-# Wrong: Platform logic inside cross-platform test
-- if:
-    platform: ios
-    command:
-      - tapOn: "iOS Button"
-- if:
-    platform: android  
-    command:
-      - tapOn: "Android Button"
-```
-
-### ✅ Do This Instead
-```yaml
-# Correct: Separate platform-specific tests
-# File: feature-action-ios.yaml
-- tapOn: "iOS Button"
-
-# File: feature-action-android.yaml  
-- tapOn: "Android Button"
-```
-
 ### ❌ Wrong File Naming
 ```
-sign-up-ios.yaml          # Missing flow description
 ios_sign_up_flow.yaml     # Wrong separator
 signUpFlow-iOS.yaml       # Wrong case and separator
 ```
 
 ### ✅ Correct File Naming
 ```
-sign-up-flow-ios.yaml     # Correct: action-description-platform.yaml
-payment-flow-android.yaml # Correct: feature-flow-platform.yaml
+sign-up-ios.yaml     # Correct: action-description-platform.yaml
+payment-android.yaml # Correct: feature-flow-platform.yaml
 login-user.yaml           # Correct: cross-platform (no suffix)
 ```
 
